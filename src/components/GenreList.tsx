@@ -2,7 +2,7 @@ import useGenre from '../hooks/useGenre'
 
 
 function GenreList() {
-  const { genres, isLoading, error } = useGenre()
+  const { genres } = useGenre()
   return (
     <ul>
       {genres.map((genre) => (
