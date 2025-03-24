@@ -1,18 +1,14 @@
-import { useEffect, useState } from "react";
 import { CanceledError } from "axios";
+import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
-interface Genre {
-  id: number;
-  name: string;
-}
-interface FetchGenreResponse {
-  count: number;
-  results: Genre[];
+interface FetchResponse<T> {
+    count: number;
+    results: T[];
 }
 
-const useGenre = () => {
-  const [genres, setGenres] = useState<Genre[]>([]);
+const useData =<T> (endPoint:string) => {
+  const [data, setData] = useState<T[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
@@ -20,9 +16,9 @@ const useGenre = () => {
     const controller = new AbortController();
     setLoading(true);
     apiClient
-      .get<FetchGenreResponse>("/genres", { signal: controller.signal })
+      .get<FetchResponse<T>>(endPoint, { signal: controller.signal })
       .then((res) => {
-        setGenres(res.data.results);
+        setData(res.data.results);
         setLoading(false);
       })
       .catch((err) => {
@@ -33,7 +29,7 @@ const useGenre = () => {
     return () => controller.abort();
   }, []);
 
-  return { genres, error, isLoading };
+  return { data, error, isLoading };
 };
 
-export default useGenre;
+export default useData;
