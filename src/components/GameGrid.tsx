@@ -34,6 +34,7 @@ const GameGrid = ({ gameQuery }: Props) => {
               platform: { id: number; name: string; slug: string };
             }[];
             metacritic: number;
+            rating_top: number;
           }) => (
             <GameCardContainer key={game.id}>
               <GameCard game={game} />
